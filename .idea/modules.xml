@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CarFinder.iml" filepath="$PROJECT_DIR$/CarFinder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/framework/framework.iml" filepath="$PROJECT_DIR$/framework/framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gson-2.3.1-45bbcc30720a56b255cd4e7d6f1e9802ef3a81ce/gson-2.3.1-45bbcc30720a56b255cd4e7d6f1e9802ef3a81ce.iml" filepath="$PROJECT_DIR$/gson-2.3.1-45bbcc30720a56b255cd4e7d6f1e9802ef3a81ce/gson-2.3.1-45bbcc30720a56b255cd4e7d6f1e9802ef3a81ce.iml" />
+    </modules>
+  </component>
+</project>
