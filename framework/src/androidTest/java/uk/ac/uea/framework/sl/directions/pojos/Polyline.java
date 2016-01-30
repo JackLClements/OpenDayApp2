@@ -1,6 +1,6 @@
-package com.sl.directions.pojos;
+package uk.ac.uea.framework.sl.directions.pojos;
 
-public class Overview_polyline
+public class Polyline
 {
     private String points;
 

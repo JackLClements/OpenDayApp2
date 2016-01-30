@@ -1,6 +1,6 @@
-package com.sl.directions.pojos;
+package uk.ac.uea.framework.sl.directions.pojos;
 
-public class End_location
+public class Southwest
 {
     private String lng;
 
@@ -32,3 +32,4 @@ public class End_location
         return "ClassPojo [lng = "+lng+", lat = "+lat+"]";
     }
 }
+	

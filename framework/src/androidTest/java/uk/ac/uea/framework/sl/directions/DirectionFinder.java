@@ -1,4 +1,4 @@
-package com.sl.directions;
+package uk.ac.uea.framework.sl.directions;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,11 +6,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.sl.directions.pojos.DirectionsPojo;
-import com.sl.directions.pojos.Legs;
-import com.sl.directions.pojos.Routes;
-import com.sl.directions.pojos.Steps;
-import com.sl.utils.JsonGenerator;
+import uk.ac.uea.framework.sl.directions.pojos.DirectionsPojo;
+import uk.ac.uea.framework.sl.directions.pojos.Legs;
+import uk.ac.uea.framework.sl.directions.pojos.Routes;
+import uk.ac.uea.framework.sl.directions.pojos.Steps;
+import uk.ac.uea.framework.sl.utils.JsonGenerator;
 
 public class DirectionFinder {
   public static void main(String args[]) throws IOException {

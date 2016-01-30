@@ -1,4 +1,4 @@
-package com.sl.utils;
+package uk.ac.uea.framework.sl.utils;
 
 import com.google.gson.*;
 

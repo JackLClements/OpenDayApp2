@@ -1,6 +1,6 @@
-package com.sl.directions.pojos;
+package uk.ac.uea.framework.sl.directions.pojos;
 
-public class Southwest
+public class Northeast
 {
     private String lng;
 
@@ -32,4 +32,3 @@ public class Southwest
         return "ClassPojo [lng = "+lng+", lat = "+lat+"]";
     }
 }
-	

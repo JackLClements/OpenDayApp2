@@ -1,5 +1,6 @@
 package uk.ac.uea.carfinder;
 
+import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -42,6 +43,10 @@ public class MainActivity extends FragmentActivity {
     GoogleMap map;
     ArrayList<LatLng> markerPoints;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,14 +55,11 @@ public class MainActivity extends FragmentActivity {
         // Initializing
         markerPoints = new ArrayList<LatLng>();
 
-        // Getting reference to SupportMapFragment of the activity_main
+
         SupportMapFragment fm = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
 
         // Getting reference to Button
         Button btnDraw = (Button)findViewById(R.id.btn_draw);
-
-        // Getting Map for the SupportMapFragment
-        map = fm.getMap();
 
         // Enable MyLocation Button in the Map
         map.setMyLocationEnabled(true);
@@ -88,20 +90,13 @@ public class MainActivity extends FragmentActivity {
                  * for the end location, the color of marker is RED and
                  * for the rest of markers, the color is AZURE
                  */
-                if(markerPoints.size()==1){
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                }else if(markerPoints.size()==2){
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                }else{
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-                }
+                options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
                 // Add new marker to the Google Map Android API V2
                 map.addMarker(options);
 
             }
         });
-
 
         // The map will be cleared on long click
         map.setOnMapLongClickListener(new OnMapLongClickListener() {
@@ -143,6 +138,12 @@ public class MainActivity extends FragmentActivity {
 
     }
 
+    /**
+     *
+     * @param origin
+     * @param dest
+     * @return
+     */
     private String getDirectionsUrl(LatLng origin,LatLng dest){
 
         // Origin of route
@@ -173,11 +174,13 @@ public class MainActivity extends FragmentActivity {
         // Building the url to the web service
         String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
 
-
         return url;
     }
 
-    /** A method to download json data from url */
+    /**
+     * A method to download json data from url
+     */
+    @SuppressLint("LongLogTag")
     private String downloadUrl(String strUrl) throws IOException{
         String data = "";
         InputStream iStream = null;
@@ -216,9 +219,9 @@ public class MainActivity extends FragmentActivity {
         return data;
     }
 
-
-
-    // Fetches data from url passed
+     /**
+     *  Fetches data from url passed
+     */
     private class DownloadTask extends AsyncTask<String, Void, String>{
 
         // Downloading data in non-ui thread
@@ -244,7 +247,6 @@ public class MainActivity extends FragmentActivity {
             super.onPostExecute(result);
 
             ParserTask parserTask = new ParserTask();
-
             // Invokes the thread for parsing the JSON data
             parserTask.execute(result);
 
@@ -310,7 +312,11 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-
+    /**
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

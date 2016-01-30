@@ -1,6 +1,6 @@
-package com.sl.directions.pojos;
+package uk.ac.uea.framework.sl.directions.pojos;
 
-public class Distance
+public class Duration
 {
     private String text;
 

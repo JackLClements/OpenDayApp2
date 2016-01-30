@@ -1,4 +1,4 @@
-package com.sl.directions.pojos;
+package uk.ac.uea.framework.sl.directions.pojos;
 
 public class DirectionsPojo {
 	private String status;
