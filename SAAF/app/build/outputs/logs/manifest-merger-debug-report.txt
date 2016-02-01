@@ -1,0 +1,37 @@
+-- Merging decision tree log ---
+manifest
+ADDED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml:1:1-8:12
+	xmlns:android
+		ADDED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml:1:11-69
+	package
+		ADDED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml:1:70-94
+		INJECTED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml
+		INJECTED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml
+		INJECTED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml
+		INJECTED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml
+application
+ADDED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml:3:5-6:19
+MERGED from [com.android.support:appcompat-v7:23.0.1] U:\Documents\Soft Eng 2\SAAF\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.0.1] U:\Documents\Soft Eng 2\SAAF\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
+	android:label
+		ADDED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml:3:45-77
+	android:allowBackup
+		ADDED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml:3:18-44
+	android:icon
+		ADDED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml:4:9-43
+	android:theme
+		ADDED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml:4:44-75
+uses-sdk
+INJECTED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:appcompat-v7:23.0.1] U:\Documents\Soft Eng 2\SAAF\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.0.1] U:\Documents\Soft Eng 2\SAAF\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:20:5-43
+	android:targetSdkVersion
+		INJECTED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml
+		INJECTED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml
+		INJECTED from U:\Documents\Soft Eng 2\SAAF\app\src\main\AndroidManifest.xml

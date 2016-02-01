@@ -17,7 +17,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
+import android.widget.Button; 
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.TextView;
