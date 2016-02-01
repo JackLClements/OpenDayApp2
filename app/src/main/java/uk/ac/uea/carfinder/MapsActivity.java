@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.text.method.ScrollingMovementMethod;
@@ -58,7 +59,6 @@ import java.util.TimerTask;
 public class MapsActivity extends FragmentActivity implements View.OnClickListener {
 
     private GoogleMap mMap;
-    private Address address;
     Location carLocation;
     Location myLocation = null;
 
@@ -93,7 +93,30 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
 
+        final Handler mHandler = new Handler();
+        Runnable updateUI = new Runnable() {
+            @Override
+            public void run() {
+
+                updateMyLocation();
+                if (carLocation != null && myLocation != null) {
+                    CheckCarFound(5);
+
+                }
+                if (carFound)
+                    chrono.stop();
+                else
+                    chrono.start();
+
+                textView2.setText(String.valueOf((int)distanceToCar) + " meters");
+                mHandler.postDelayed(this, 1000);
+            }
+        };
+        mHandler.post(updateUI);
+
         InitializeViewObjects();
+
+
 
 /*
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -147,27 +170,6 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
             e.printStackTrace();
         }
 
-        // RUNS EVERY X SECONDS
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-
-                updateMyLocation();
-                if (carLocation != null && myLocation != null) {
-                    CheckCarFound(5);
-
-                }
-                if (carFound)
-                    chrono.stop();
-                else
-                    chrono.start();
-            }
-        };
-
-        Timer timer = new Timer();
-        //EVERY 1 SECOND
-        timer.schedule(timerTask, 0, 1 * 1000);
-
     }
 
     private void InitializeViewObjects() {
@@ -199,7 +201,6 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
     /**
      * Called when a view has been clicked.
-     *
      * @param v The view that was clicked.
      */
     @Override
@@ -538,18 +539,20 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
      *
      * @param radius
      */
-    void CheckCarFound(int radius) {
+    void CheckCarFound(float radius) {
         distanceToCar = (myLocation.distanceTo(carLocation));
         if (distanceToCar <= radius) {
             carFound = true;
         }
+        else
+            carFound =false;
     }
 
     public void onSaveCar() {
 
         chrono.setBase((long) (SystemClock.elapsedRealtime() + time));
-        if (!carFound)
-            chrono.start();
+     //   if (!carFound)
+      //      chrono.start();
 
         updateMyLocation();
         carLocation = myLocation;
@@ -634,7 +637,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
             for (int i = 0; i < result.size(); i++) {
                 points = new ArrayList<LatLng>();
                 lineOptions = new PolylineOptions();
-
+                //lineOptions.color(Color.MAGENTA);
                 // Fetching i-th route
                 List<HashMap<String, String>> path = result.get(i);
 
@@ -651,7 +654,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
                 // Adding all the points in the route to LineOptions
                 lineOptions.addAll(points);
-                lineOptions.width(5);
+                lineOptions.width(7);
                 lineOptions.color(Color.MAGENTA);
             }
 

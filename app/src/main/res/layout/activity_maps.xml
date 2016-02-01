@@ -17,7 +17,7 @@ tools:context=".MapsActivity">
     android:layout_centerHorizontal="true"
     android:layout_alignParentTop="true"
     android:id="@+id/relativeLayout3"
-    android:background="#ff4d63">
+    android:background="#f22388">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -36,7 +36,8 @@ tools:context=".MapsActivity">
             android:textSize="40dp"
             android:layout_gravity="center"
             android:autoText="false"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textColor="#ffffff" />
     </LinearLayout>
 </RelativeLayout>
 
@@ -47,7 +48,7 @@ tools:context=".MapsActivity">
     android:layout_above="@+id/relativeLayout"
     android:id="@+id/relativeLayout2"
     android:layout_below="@+id/relativeLayout3"
-    android:background="#4dd4ff">
+    android:background="#f7f8ff">
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
@@ -82,8 +83,9 @@ tools:context=".MapsActivity">
         android:gravity="center_horizontal"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:background="#5999ff"
-        android:id="@+id/linearLayout">
+        android:background="#020202"
+        android:id="@+id/linearLayout"
+        android:baselineAligned="true">
 
         <TextView
             android:layout_width="match_parent"
@@ -96,7 +98,8 @@ tools:context=".MapsActivity">
             android:textStyle="bold"
             android:gravity="center_vertical|center_horizontal"
             android:autoText="false"
-            android:textSize="30dp" />
+            android:textSize="30dp"
+            android:textColor="#ffffff" />
     </LinearLayout>
 
 </RelativeLayout>
@@ -106,7 +109,8 @@ tools:context=".MapsActivity">
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true"
-    android:id="@+id/relativeLayout">
+    android:id="@+id/relativeLayout"
+        android:background="#1c1c04">
 
     <LinearLayout
         android:orientation="horizontal"
