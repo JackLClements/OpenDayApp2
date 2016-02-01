@@ -13,7 +13,7 @@ tools:context=".MapsActivity">
 
 <RelativeLayout
     android:layout_width="wrap_content"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_alignParentTop="true"
     android:id="@+id/relativeLayout3"
@@ -26,15 +26,14 @@ tools:context=".MapsActivity">
         android:weightSum="1"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true">
 
         <Chronometer
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:id="@+id/chronometer1"
             android:textAlignment="center"
-            android:textSize="50dp"
+            android:textSize="40dp"
             android:layout_gravity="center"
             android:autoText="false"
             android:gravity="center" />
@@ -54,17 +53,51 @@ tools:context=".MapsActivity">
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="match_parent" android:id="@+id/map" tools:context=".MapsActivity"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_above="@id/btn_draw"
-        />
+        android:layout_below="@+id/linearLayout" />
 
 
-    <Button
-        android:id="@+id/btn_draw"
-        android:layout_width="fill_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/str_btn_draw"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:autoText="false"
+        android:textAlignment="gravity"
+        android:background="#274066"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/linearLayout"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:textSize="20dp"
+        android:text=""
+        android:gravity="center_horizontal|top"
+        android:textIsSelectable="false" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="#5999ff"
+        android:id="@+id/linearLayout">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+
+            android:text="Distance : "
+            android:id="@+id/textView2"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:gravity="center_vertical|center_horizontal"
+            android:autoText="false"
+            android:textSize="30dp" />
+    </LinearLayout>
 
 </RelativeLayout>
 
