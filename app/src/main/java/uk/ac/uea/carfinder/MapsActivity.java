@@ -2,6 +2,7 @@ package uk.ac.uea.carfinder;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -62,13 +63,14 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     Location carLocation;
     Location myLocation = null;
 
-    double time = 0;
+    long time = 0;
     float distanceToCar = 0;
 
     boolean carFound = false;
     boolean alphaToggle = true;
     boolean myToggle = false;
     boolean readEnabled = false;
+    boolean first = false;
 
     String directions;
     String directionsURL;
@@ -77,7 +79,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     ImageButton simpleView;
     ImageButton advancedView;
     ImageButton help;
-    TextView textView;
+   // TextView textView;
     TextView textView2;
     Chronometer chrono;
 
@@ -100,13 +102,22 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
                 updateMyLocation();
                 if (carLocation != null && myLocation != null) {
-                    CheckCarFound(5);
+                    CheckCarFound(10);
 
                 }
                 if (carFound)
+                {
+                    time = chrono.getBase() - SystemClock.elapsedRealtime();
                     chrono.stop();
-                else
+                }
+
+                else if(first)
+                {
+                    chrono.setBase((long) (SystemClock.elapsedRealtime() + time));
                     chrono.start();
+
+                }
+
 
                 textView2.setText(String.valueOf((int)distanceToCar) + " meters");
                 mHandler.postDelayed(this, 1000);
@@ -185,10 +196,10 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         advancedView.setOnClickListener(this);
         help.setOnClickListener(this);
 
-        textView = (TextView) findViewById(R.id.textView);
+       // textView = (TextView) findViewById(R.id.textView);
         textView2 = (TextView) findViewById(R.id.textView2);
 
-        textView.setAlpha(0);
+       // textView.setAlpha(0);
 
 
     }
@@ -211,6 +222,8 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
                 break;
             case R.id.button2:
+
+
                 if(myLocation != null && carLocation != null)
                 {
                     LatLng origin = new LatLng(myLocation.getLatitude(),myLocation.getLongitude()) ;
@@ -225,6 +238,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
                     DownloadTask downloadTask = new DownloadTask();
                     downloadTask.execute(url);
+
 
 
                 }
@@ -243,31 +257,30 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                     }
 
 
-                    if (alphaToggle)
-                        textView.setAlpha(1);
-                    else
-                        textView.setAlpha(0);
-
-                    alphaToggle = !alphaToggle;
+                  //  if (alphaToggle)
+                  //      textView.setAlpha(1);
+                  //  else
+                  //      textView.setAlpha(0);
+                //    alphaToggle = !alphaToggle;
 
                     try {
                         DirectionFinder();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    textView.setText(directions);
+                    onClickDescription(v);
+                   // textView.setText(directions);
                     directions = null;
                 }
                 break;
             case R.id.button4:
-                if(myLocation != null && carLocation != null)
-                    textView2.setText("Distance : " + String.valueOf((int) distanceToCar) + " meters.");
+                onClickHelp(v);
+                //if(myLocation != null && carLocation != null)
+                 //   textView2.setText("Distance : " + String.valueOf((int) distanceToCar) + " meters.");
                      //textView2.setText(( myLocation.getLatitude() + " " + myLocation.getLongitude() ) + "\n " + (carLocation.getLatitude() + " " + carLocation.getLongitude() ));
                 break;
         }
     }
-
-
 
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
@@ -551,8 +564,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     public void onSaveCar() {
 
         chrono.setBase((long) (SystemClock.elapsedRealtime() + time));
-     //   if (!carFound)
-      //      chrono.start();
+
 
         updateMyLocation();
         carLocation = myLocation;
@@ -564,6 +576,42 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
         mMap.addMarker(new MarkerOptions().position(new LatLng(carLocation.getLongitude(), carLocation.getLongitude())).title("My Car"));
+        first = true;
+
+    }
+
+    public void onClickHelp(View view) {
+        Intent getHelpPage = new Intent(this,HelpPage.class);
+
+        startActivity(getHelpPage);
+
+
+    }
+
+    /**
+     * Dispatch incoming result to the correct fragment.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Long timeChro;
+        timeChro = data.getLongExtra("Chronometer",1);
+        //chrono.setBase(timeChro);
+
+    }
+
+    public void onClickDescription(View view) {
+        Intent getTextPage = new Intent(this,DirectionsPage.class);
+        int result = 1;
+
+        getTextPage.putExtra("Direction data", directions);
+        getTextPage.putExtra("Chronometer", chrono.getBase());
+        startActivityForResult(getTextPage, result);
+
 
     }
 

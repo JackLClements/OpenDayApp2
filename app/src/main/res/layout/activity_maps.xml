@@ -57,24 +57,6 @@ tools:context=".MapsActivity">
         android:layout_below="@+id/linearLayout" />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:autoText="false"
-        android:textAlignment="gravity"
-        android:background="#274066"
-        android:textColor="#ffffff"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignParentBottom="true"
-        android:textSize="20dp"
-        android:text=""
-        android:gravity="center_horizontal|top"
-        android:textIsSelectable="false" />
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -159,7 +141,9 @@ tools:context=".MapsActivity">
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:scaleType="centerCrop"
-            android:src="@mipmap/about" />
+            android:src="@mipmap/about"
+
+            />
 
     </LinearLayout>
 

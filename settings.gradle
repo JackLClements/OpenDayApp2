@@ -1,1 +1,1 @@
-include ':app', ':gson-2.3.1-45bbcc30720a56b255cd4e7d6f1e9802ef3a81ce', ':framework'
+include ':app', ':gson-2.3.1-45bbcc30720a56b255cd4e7d6f1e9802ef3a81ce', ':framework', ':gson-2.5-sources'

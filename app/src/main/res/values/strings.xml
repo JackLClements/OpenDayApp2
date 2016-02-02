@@ -2,6 +2,11 @@
     <string name="app_name">Car Locator</string>
     <string name="title_activity_maps">Car Locator</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_text_directions">TextDirections</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_directions_page">DirectionsPage</string>
+    <string name="title_activity_help_page">HelpPage</string>
 
 
 </resources>

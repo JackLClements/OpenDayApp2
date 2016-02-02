@@ -26,18 +26,23 @@
             android:value="@string/google_maps_key" />
 
         <activity
-
-            android:screenOrientation="portrait"
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" >
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
+        <activity
+            android:name=".DirectionsPage"
+            android:label="@string/title_activity_directions_page" >
+        </activity>
+        <activity
+            android:name=".HelpPage"
+            android:label="@string/title_activity_help_page" >
+        </activity>
     </application>
 
 </manifest>
