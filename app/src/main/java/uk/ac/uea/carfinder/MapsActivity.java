@@ -38,12 +38,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import uk.ac.uea.framework.implementation.AndroidGPS;
-import uk.ac.uea.framework.sl.directions.pojos.DirectionsPojo;
-import uk.ac.uea.framework.sl.directions.pojos.Legs;
-import uk.ac.uea.framework.sl.directions.pojos.Routes;
-import uk.ac.uea.framework.sl.directions.pojos.Steps;
+import uk.ac.uea.framework.sl.directions.mapper.DirectionsMapper;
+import uk.ac.uea.framework.sl.directions.mapper.Legs;
+import uk.ac.uea.framework.sl.directions.mapper.Routes;
+import uk.ac.uea.framework.sl.directions.mapper.Steps;
 import uk.ac.uea.framework.sl.utils.JsonGenerator;
 
+/**
+ * Main Activity class that uses a Google Map instance.
+ */
 public class MapsActivity extends FragmentActivity implements View.OnClickListener {
 
     AndroidGPS gps;
@@ -284,7 +287,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
      * Reading the locations from the list of places around the campus(google doc csv).
      * @throws IOException
      */
-    void ReadMap() throws IOException {
+    public boolean ReadMap() throws IOException {
 
         String[] columns = new String[10];
 
@@ -310,10 +313,20 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
             mMap.addMarker(markerOption);
 
-        }
+            return (markerOption != null);
 
+        }
+        return false;
     }
 
+    /**
+     * Method that gets the URL when fed with the origin and the destination.
+     * This URL is used to retrieve a JSON object later.
+     * @param origin
+     * @param dest
+     * @return
+     * @throws IOException
+     */
     private String getDirectionsUrl(LatLng origin, LatLng dest) throws IOException {
 
         // Origin of route
@@ -477,12 +490,12 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
      * go to the destination location.
      * @throws IOException
      */
-    public void DirectionFinder() throws IOException {
+    public boolean DirectionFinder() throws IOException {
         List<String> d = new ArrayList<>();
 
-    DirectionsPojo dp = (DirectionsPojo) JsonGenerator.generateTOfromJson(directionsURL, DirectionsPojo.class);
+    DirectionsMapper dp = (DirectionsMapper) JsonGenerator.generateTOfromJson(directionsURL, DirectionsMapper.class);
         if(dp == null)
-            return;
+            return true;
     for (Routes route : dp.getRoutes()) {
 
         d.add("----- Route Begins ------");
@@ -507,12 +520,18 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     for (int i = 0; i < d.size(); i++) {
         directions += d.get(i) + "\n";
     }
+
+        return(directions != null);
 }
 
 
     ///////////////////////// CAR METHODS ///////////////////////////
 
 
+    /**
+     * Method that saves the location of the car.
+     * Also starts the timer and drops a marker where the car is.
+     */
     public void onSaveCar() {
 
         chrono.setBase((long) (SystemClock.elapsedRealtime() + time));
@@ -553,6 +572,9 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
     ///////////////////////// INNER CLASSES /////////////////////////
 
+    /**
+     * An AsyncTask to parse and collect data from the previously created URL.
+     */
     private class DownloadTask extends AsyncTask<String, Void, String> {
 
         // Downloading data in non-ui thread

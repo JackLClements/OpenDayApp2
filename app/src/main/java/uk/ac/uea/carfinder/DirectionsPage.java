@@ -10,6 +10,9 @@ import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/**
+ * Activity that shows the directions in text(Advanced View).
+ */
 public class DirectionsPage extends AppCompatActivity implements View.OnClickListener {
     Chronometer chrono;
     long chronoNum = 0;

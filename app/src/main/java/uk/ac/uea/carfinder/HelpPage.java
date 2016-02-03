@@ -14,6 +14,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 
+/**
+ * Activity that serves as a helper ot understand the app.
+ */
 public class HelpPage extends Activity implements View.OnClickListener {
     ImageButton saveCar;
     ImageButton simpleView;
@@ -88,11 +91,11 @@ public class HelpPage extends Activity implements View.OnClickListener {
     }
 
     @Override
-    public void onBackPressed() {
-        // Write your code here
-        onClickBack();
+   public void onBackPressed() {
+       // Write your code here
+       onClickBack();
         super.onBackPressed();
-    }
+}
 
 
 }

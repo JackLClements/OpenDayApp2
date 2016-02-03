@@ -1,7 +1,10 @@
 package uk.ac.uea.framework.sl.utils;
 
 import com.google.gson.*;
-
+/**
+ * This class is used to generate the JSON object from string.
+ * Created by Beren on 17/01/2016.
+ */
 public final class JsonGenerator {
 /*
  * this class is for generating JSON	

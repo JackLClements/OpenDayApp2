@@ -1,6 +1,6 @@
-package uk.ac.uea.framework.sl.directions.pojos;
+package uk.ac.uea.framework.sl.directions.mapper;
 
-public class DirectionsPojo {
+public class DirectionsMapper {
 	private String status;
 
 	private Routes[] routes;

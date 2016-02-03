@@ -1,4 +1,4 @@
-package uk.ac.uea.framework.sl.directions.pojos;
+package uk.ac.uea.framework.sl.directions.mapper;
 
 public class Routes
 {

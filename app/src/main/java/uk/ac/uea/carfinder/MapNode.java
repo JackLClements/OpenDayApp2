@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Deprecated class used to create custom Nodes on the map
+ * to be used for custom PolyLines.
  * Created by Beren on 30/01/2016.
  */
      public class MapNode
@@ -21,6 +23,12 @@ import java.util.Map;
         private List<MapNode> neigbourMapNodes;
 
 
+        /**
+         *
+         * @param lat
+         * @param lng
+         * @param name
+         */
        public MapNode(double lat, double lng, String name)
         {
             this.latLng = new LatLng(lat, lng);
@@ -28,18 +36,32 @@ import java.util.Map;
             neigbourMapNodes = null;
         }
 
+        /**
+         *
+         * @param mapNode
+         */
         public void addNodeToNeighbours(MapNode mapNode)
         {
             neigbourMapNodes.add(mapNode);
 
         }
 
+        /**
+         *
+         * @param index
+         */
         public void removeNodeAt(int index)
         {
             neigbourMapNodes.remove(index);
 
         }
 
+        /**
+         *
+         * @param nodesList
+         * @param loc
+         * @return
+         */
         public MapNode getStartNode(List<MapNode> nodesList, Location loc)
         {
             MapNode startNode = nodesList.get(0);
@@ -53,6 +75,12 @@ import java.util.Map;
             return startNode;
         }
 
+        /**
+         *
+         * @param mapNode1
+         * @param mapNode2
+         * @return
+         */
         public float getDistanceBetweenNodes(MapNode mapNode1, MapNode mapNode2)
         {
 
@@ -69,6 +97,11 @@ import java.util.Map;
 
         }
 
+        /**
+         *
+         * @param mapNode
+         * @return
+         */
         public MarkerOptions getMarker(MapNode mapNode)
         {
             MarkerOptions markerOption = new MarkerOptions();
@@ -76,6 +109,11 @@ import java.util.Map;
             return markerOption;
         }
 
+        /**
+         *
+         * @param mapNode
+         * @return
+         */
         public PolylineOptions getPolyLine(MapNode mapNode)
         {
             PolylineOptions plyOpt = new PolylineOptions();
@@ -83,6 +121,12 @@ import java.util.Map;
             return plyOpt;
         }
 
+        /**
+         *
+         * @param mapNode1
+         * @param mapNode2
+         * @return
+         */
         public boolean isNeighbour(MapNode mapNode1, MapNode mapNode2)
         {
             return(mapNode1.neigbourMapNodes.contains(mapNode2));

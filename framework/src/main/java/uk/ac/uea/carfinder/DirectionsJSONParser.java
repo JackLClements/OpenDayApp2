@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * This class is used to parse JSON Objects
  * Created by Beren on 17/01/2016.
  */
 
@@ -62,8 +63,8 @@ public class DirectionsJSONParser {
     }
 
     /**
-     * Method to decode polyline points
-     * Courtesy : jeffreysambells.com/2010/05/27/decoding-polylines-from-google-maps-direction-api-with-java
+     * Method to decode polyline points.
+     *
      * */
     private List<LatLng> decodePoly(String encoded) {
 

@@ -1,6 +1,6 @@
-package uk.ac.uea.framework.sl.directions.pojos;
+package uk.ac.uea.framework.sl.directions.mapper;
 
-public class Start_location
+public class End_location
 {
     private String lng;
 
@@ -32,5 +32,3 @@ public class Start_location
         return "ClassPojo [lng = "+lng+", lat = "+lat+"]";
     }
 }
-			
-			

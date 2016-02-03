@@ -7,6 +7,19 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_directions_page">DirectionsPage</string>
     <string name="title_activity_help_page">HelpPage</string>
-
+     <string name="app_about">Welcome to the UEA Car Locator! This page will give you a quick
+        rundown on how to use this app to find your parked car. Simply follow the steps
+        below:</string>
+    <string name="tagging"><u>TAGGING YOUR CAR\'S PARKING LOCATION</u></string>
+    <string name="tagging_info">To mark where your car is parked, stand by your car and tap the
+        first button (with the picture of a car). This will save your current location (via GPS)
+        as the location where the car is parked.</string>
+    <string name="finding"><u>FINDING YOUR CAR</u></string>
+    <string name="finding_info">To find your car, tap the second button (with the picture of a map).
+        The route to your car will now be displayed as a line on the map. If you wish to change the
+        directions from the view of a map to a list of text instructions, tap the third button.
+    </string>
+    <string name="notification_info">If you have the app running while making your way to the car,
+        the app will give you a notification when you are near your destination!</string>
 
 </resources>
