@@ -67,7 +67,10 @@
             android:text=""
             android:gravity="center_horizontal|top"
             android:textIsSelectable="false"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"
+            android:maxLines="50"
+            android:scrollbars="vertical"
+            />
 
     </RelativeLayout>
 

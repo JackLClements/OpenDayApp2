@@ -8,19 +8,35 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 
 public class HelpPage extends Activity implements View.OnClickListener {
-
+    ImageButton saveCar;
+    ImageButton simpleView;
+    ImageButton advancedView;
+    ImageButton help;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_page);
         Button button5 = (Button) findViewById(R.id.button5);
         button5.setOnClickListener(this);
+
+
+        saveCar = (ImageButton) findViewById(R.id.button);
+        simpleView = (ImageButton) findViewById(R.id.button2);
+        advancedView = (ImageButton) findViewById(R.id.button3);
+        help = (ImageButton) findViewById(R.id.button4);
+
+        saveCar.setOnClickListener(this);
+        simpleView.setOnClickListener(this);
+        advancedView.setOnClickListener(this);
+        help.setOnClickListener(this);
+
     }
 
     public void onClick(View v) {

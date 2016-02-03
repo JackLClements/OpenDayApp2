@@ -1,24 +1,17 @@
 package uk.ac.uea.carfinder;
 
 
-import android.content.Context;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.widget.Button; 
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -26,7 +19,6 @@ import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -35,86 +27,87 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import uk.ac.uea.framework.sl.directions.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import uk.ac.uea.framework.implementation.AndroidGPS;
 import uk.ac.uea.framework.sl.directions.pojos.DirectionsPojo;
 import uk.ac.uea.framework.sl.directions.pojos.Legs;
 import uk.ac.uea.framework.sl.directions.pojos.Routes;
 import uk.ac.uea.framework.sl.directions.pojos.Steps;
 import uk.ac.uea.framework.sl.utils.JsonGenerator;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class MapsActivity extends FragmentActivity implements View.OnClickListener {
 
+    AndroidGPS gps;
     private GoogleMap mMap;
-    Location carLocation;
-    Location myLocation = null;
+    private Location carLocation = null;
+    private Location myLocation = null;
 
-    long time = 0;
-    float distanceToCar = 0;
+    private long time = 0;
+    private float distanceToCar = 0;
 
-    boolean carFound = false;
-    boolean alphaToggle = true;
-    boolean myToggle = false;
-    boolean readEnabled = false;
-    boolean first = false;
+    private boolean carFound = false;
+    private boolean myToggle = false;
+    private boolean readEnabled = false;
+    private boolean first = false;
 
-    String directions;
-    String directionsURL;
+    private String directions = "";
+    private String directionsURL = "";
 
-    ImageButton saveCar;
-    ImageButton simpleView;
-    ImageButton advancedView;
-    ImageButton help;
-   // TextView textView;
-    TextView textView2;
-    Chronometer chrono;
+    private ImageButton saveCar;
+    private ImageButton simpleView;
+    private ImageButton advancedView;
+    private ImageButton help;
 
+    private TextView textView2;
+    private Chronometer chrono;
 
 
     ///////////////////////// MAP METHODS ///////////////////////////
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        setUpMapIfNeeded();
 
+        gps = new AndroidGPS(this, 10);
+        gps.startUpdates();
+
+        setUpMapIfNeeded();
+        InitializeViewObjects();
         final Handler mHandler = new Handler();
+
         Runnable updateUI = new Runnable() {
             @Override
             public void run() {
 
                 updateMyLocation();
                 if (carLocation != null && myLocation != null) {
-                    CheckCarFound(10);
 
+                    distanceToCar = (myLocation.distanceTo(carLocation));
+                    carFound =  gps.proximityCheck(2, carLocation);
                 }
                 if (carFound)
-                {
-                    time = chrono.getBase() - SystemClock.elapsedRealtime();
                     chrono.stop();
-                }
-
                 else if(first)
-                {
-                    chrono.setBase((long) (SystemClock.elapsedRealtime() + time));
                     chrono.start();
+
+
+                 if(!first && carFound)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+                    builder.setTitle("Car Found!")
+                        .setMessage("You have arrived at your destination.").show();
 
                 }
 
@@ -124,30 +117,6 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         mHandler.post(updateUI);
-
-        InitializeViewObjects();
-
-
-
-/*
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
-       @Override
-       public void onMapClick(LatLng point) {
-             if (markerPoints.size() >= 10) {
-                 return;
-             }
-
-             markerPoints.add(point);
-
-             MarkerOptions options = new MarkerOptions();
-
-             options.position(point);
-             options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-             mMap.addMarker(options);
-       }}
-        );
-*/
 
         // The map will be cleared on long click
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
@@ -165,7 +134,6 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 } else {
                     mMap.clear();
 
-
                 }
                 myToggle = !myToggle;
             }
@@ -176,19 +144,23 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
         try {
             if(readEnabled)
-                 ReadMap();
+                ReadMap();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
+    /**
+     * Initializing the buttons and textview objects in the scene.
+     */
     private void InitializeViewObjects() {
 
         saveCar = (ImageButton) findViewById(R.id.button);
         simpleView = (ImageButton) findViewById(R.id.button2);
         advancedView = (ImageButton) findViewById(R.id.button3);
         help = (ImageButton) findViewById(R.id.button4);
+        textView2 = (TextView) findViewById(R.id.textView2);
 
         chrono = (Chronometer) findViewById(R.id.chronometer1);
         saveCar.setOnClickListener(this);
@@ -196,13 +168,11 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         advancedView.setOnClickListener(this);
         help.setOnClickListener(this);
 
-       // textView = (TextView) findViewById(R.id.textView);
-        textView2 = (TextView) findViewById(R.id.textView2);
 
-       // textView.setAlpha(0);
 
 
     }
+
 
     @Override
     protected void onResume() {
@@ -256,28 +226,18 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                         e.printStackTrace();
                     }
 
-
-                  //  if (alphaToggle)
-                  //      textView.setAlpha(1);
-                  //  else
-                  //      textView.setAlpha(0);
-                //    alphaToggle = !alphaToggle;
-
                     try {
                         DirectionFinder();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     onClickDescription(v);
-                   // textView.setText(directions);
                     directions = null;
                 }
                 break;
             case R.id.button4:
                 onClickHelp(v);
-                //if(myLocation != null && carLocation != null)
-                 //   textView2.setText("Distance : " + String.valueOf((int) distanceToCar) + " meters.");
-                     //textView2.setText(( myLocation.getLatitude() + " " + myLocation.getLongitude() ) + "\n " + (carLocation.getLatitude() + " " + carLocation.getLongitude() ));
+
                 break;
         }
     }
@@ -294,6 +254,9 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
+    /**
+     * Sets up the map
+     */
     private void setUpMap() {
 
         mMap.setMyLocationEnabled(true);
@@ -304,8 +267,8 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         LatLng latLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
-        //  mMap.addMarker(new MarkerOptions().position(new LatLng(myLocation.getLatitude(), myLocation.getLongitude())).title("You are here!"));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(20));
+
 
     }
 
@@ -314,15 +277,11 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
      */
     private void updateMyLocation() {
 
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String provider = locationManager.getBestProvider(criteria, true);
-        myLocation = locationManager.getLastKnownLocation(provider);
+        myLocation = gps.getCurrentLocation();
     }
 
     /**
-     * Reading the markers.
-     *
+     * Reading the locations from the list of places around the campus(google doc csv).
      * @throws IOException
      */
     void ReadMap() throws IOException {
@@ -364,7 +323,6 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         // Sensor enabled
         String sensor = "sensor=false";
         // Waypoints
-
 
         String walk = "avoid=highways&mode=walking";
         // Building the parameters to the web service
@@ -475,6 +433,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     }
 
     /**
+     * Method to decode the polyline.
      * @param encoded
      * @return
      */
@@ -513,94 +472,71 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         return poly;
     }
 
+    /**
+     * Finds and creates a string describing the details of the directions to
+     * go to the destination location.
+     * @throws IOException
+     */
     public void DirectionFinder() throws IOException {
         List<String> d = new ArrayList<>();
 
-        DirectionsPojo dp = (DirectionsPojo) JsonGenerator.generateTOfromJson(directionsURL, DirectionsPojo.class);
-        for (Routes route : dp.getRoutes()) {
+    DirectionsPojo dp = (DirectionsPojo) JsonGenerator.generateTOfromJson(directionsURL, DirectionsPojo.class);
+        if(dp == null)
+            return;
+    for (Routes route : dp.getRoutes()) {
 
-            d.add("----- Route Begins ------");
-            //System.out.println("----- Route Begins ------");
-            for (Legs leg : route.getLegs()) {
-                d.add("Total Distance " + leg.getDistance().getText() + "\n");
-                d.add(leg.getStart_address());
-                //System.out.println("Total Distance "+leg.getDistance().getText());
-                for (Steps step : leg.getSteps()) {
+        d.add("----- Route Begins ------");
 
-                    d.add(step.getDistance().getText());
-                    d.add("Walk for: " + step.getDuration().getText());
+        for (Legs leg : route.getLegs()) {
+            d.add("Total Distance " + leg.getDistance().getText() + "\n");
+            d.add(leg.getStart_address());
 
+            for (Steps step : leg.getSteps()) {
 
-                }
-                d.add(leg.getEnd_address());
+                d.add(step.getDistance().getText());
+                d.add("Walk for: " + step.getDuration().getText());
+
             }
-            d.add("----- Route Ends ------");
-
+            d.add(leg.getEnd_address());
         }
-        d.add("\n");
-        directions = "\n";
-        for (int i = 0; i < d.size(); i++) {
-            directions += d.get(i) + "\n";
-        }
+        d.add("----- Route Ends ------");
 
     }
+    d.add("\n");
+    directions = "\n";
+    for (int i = 0; i < d.size(); i++) {
+        directions += d.get(i) + "\n";
+    }
+}
+
 
     ///////////////////////// CAR METHODS ///////////////////////////
 
-    /**
-     * CHECKS IF USER IS WITHIN @param radius METERS OF THEIR CAR
-     *
-     * @param radius
-     */
-    void CheckCarFound(float radius) {
-        distanceToCar = (myLocation.distanceTo(carLocation));
-        if (distanceToCar <= radius) {
-            carFound = true;
-        }
-        else
-            carFound =false;
-    }
 
     public void onSaveCar() {
 
         chrono.setBase((long) (SystemClock.elapsedRealtime() + time));
-
-
+        mMap.clear();
         updateMyLocation();
-        carLocation = myLocation;
 
+        carLocation = myLocation;
         // Create a LatLng object for the current location
         LatLng latLng = new LatLng(carLocation.getLatitude(), carLocation.getLongitude());
 
         // Show the current location in Google Map
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(carLocation.getLongitude(), carLocation.getLongitude())).title("My Car"));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(20));
+        mMap.addMarker(new MarkerOptions().position(latLng).title("My Car"));
         first = true;
 
     }
+    ///////////////////////// UI METHODS /////////////////////////
 
     public void onClickHelp(View view) {
         Intent getHelpPage = new Intent(this,HelpPage.class);
 
         startActivity(getHelpPage);
 
-
-    }
-
-    /**
-     * Dispatch incoming result to the correct fragment.
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Long timeChro;
-        timeChro = data.getLongExtra("Chronometer",1);
-        //chrono.setBase(timeChro);
 
     }
 
